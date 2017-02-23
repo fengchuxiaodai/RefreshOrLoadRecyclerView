@@ -76,23 +76,22 @@ public class RefreshOrLoadRecyclerView extends LinearLayout {
     private Context mContext;
     int height;
     private RelativeLayout layout;//最外层布局
-    private RelativeLayout headView;//头布局 - 下拉刷新
 
+    //头布局相关  xml文件中可以修改
+    private RelativeLayout headView;//头布局 - 下拉刷新
     private ProgressBar headProgress;//进度
     private int headerHeigh;//头布局的高度
     private ImageView headLoadRefreshImage;//刷新中
     private ImageView headToRefreshImage;//下拉中
     private TextView headToRefreshText;//下拉时的文本框
 
-
-
+    //尾布局相关  xml文件中可以修改
     private RelativeLayout footView;//脚布局 - 上拉加载
     private int footerHeigh;//脚布局的高度
     private ProgressBar footProgress;//进度
     private ImageView footLoadRefreshImage;//加载中
     private ImageView footToLoadImage;//上拉的时候
     private TextView footToRefreshText;//文本框
-
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
