@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/rl_head"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="10dip"
+        android:background="#f5f5f8"
+        android:paddingTop="10dip">
+
+        <ProgressBar
+            android:id="@+id/head_progress"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dip"
+            android:layout_marginRight="20dip"
+            android:layout_marginTop="10dip"
+            android:indeterminate="true"
+            android:visibility="gone"
+            />
+        <ImageView
+            android:id="@+id/head_load_reflash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/a11"
+            android:layout_marginLeft="50dip"
+            android:visibility="gone"
+            android:layout_gravity="center_horizontal|center_vertical"
+            />
+
+        <ImageView
+            android:id="@+id/head_to_refresh_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_marginLeft="50dip"
+            android:src="@drawable/ynet_ic_pulltorefresh_arrow_2"
+            android:visibility="visible"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/head_to_refresh_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="#000000"
+            android:text="下拉刷新"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_foot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:background="#f5f5f8"
+        android:paddingBottom="10dip"
+        android:paddingTop="10dip" >
+
+        <ProgressBar
+            android:id="@+id/foot_progress"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dip"
+            android:layout_marginRight="20dip"
+            android:layout_marginTop="10dip"
+            android:indeterminate="true"
+            android:visibility="gone" />
+        <ImageView
+            android:id="@+id/foot_load_reflash_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/a11"
+            android:layout_marginLeft="50dip"
+            android:visibility="gone"
+            android:layout_gravity="center_horizontal|center_vertical"
+            />
+
+        <ImageView
+            android:id="@+id/foot_to_load_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_marginLeft="50dip"
+            android:layout_marginRight="20dip"
+
+            android:gravity="center"
+            android:src="@drawable/ynet_ic_pulltorefresh_arrow_up_2"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/foot_to_load_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="#000000"
+            android:text="上拉加载更多"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_above="@id/rl_foot"
+        android:layout_below="@id/rl_head"
+        android:layout_width="match_parent"
+        android:id="@+id/recycleView"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>
