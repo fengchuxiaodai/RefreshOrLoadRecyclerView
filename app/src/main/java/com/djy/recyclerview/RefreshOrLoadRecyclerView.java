@@ -79,7 +79,6 @@ public class RefreshOrLoadRecyclerView extends LinearLayout {
 
     //头布局相关  xml文件中可以修改
     private RelativeLayout headView;//头布局 - 下拉刷新
-    private ProgressBar headProgress;//进度
     private int headerHeigh;//头布局的高度
     private ImageView headLoadRefreshImage;//刷新中
     private ImageView headToRefreshImage;//下拉中
@@ -88,10 +87,12 @@ public class RefreshOrLoadRecyclerView extends LinearLayout {
     //尾布局相关  xml文件中可以修改
     private RelativeLayout footView;//脚布局 - 上拉加载
     private int footerHeigh;//脚布局的高度
-    private ProgressBar footProgress;//进度
     private ImageView footLoadRefreshImage;//加载中
     private ImageView footToLoadImage;//上拉的时候
     private TextView footToRefreshText;//文本框
+
+    private long toRefreshTime;
+    private long refreshedTime;
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
@@ -121,13 +122,11 @@ public class RefreshOrLoadRecyclerView extends LinearLayout {
         layout = (RelativeLayout) view.findViewById(R.id.layout);
         headView = (RelativeLayout) view.findViewById(R.id.rl_head);
         headLoadRefreshImage = (ImageView) view.findViewById(R.id.head_load_reflash);
-        headProgress = (ProgressBar) view.findViewById(R.id.head_progress);
         headToRefreshImage = (ImageView) view.findViewById(R.id.head_to_refresh_image);
         headToRefreshText = (TextView) view.findViewById(R.id.head_to_refresh_text);
 
         footView  = (RelativeLayout) view.findViewById(R.id.rl_foot);
         footLoadRefreshImage = (ImageView) view.findViewById(R.id.foot_load_reflash_image);
-        footProgress = (ProgressBar) view.findViewById(R.id.foot_progress);
         footToLoadImage = (ImageView) view.findViewById(R.id.foot_to_load_image);
         footToRefreshText = (TextView) view.findViewById(R.id.foot_to_load_text);
 
@@ -266,7 +265,6 @@ public class RefreshOrLoadRecyclerView extends LinearLayout {
 
     private void headViewGone() {
         isFirst = false;
-        headProgress.setVisibility(GONE);
         headLoadRefreshImage.setVisibility(GONE);
         headToRefreshImage.setVisibility(GONE);
         headToRefreshText.setVisibility(GONE);
@@ -279,7 +277,6 @@ public class RefreshOrLoadRecyclerView extends LinearLayout {
 
     private void footViewGone() {
         isLast = false;
-        footProgress.setVisibility(GONE);
         footToLoadImage.setVisibility(GONE);
         footLoadRefreshImage.setVisibility(GONE);
         footToRefreshText.setVisibility(GONE);
@@ -327,7 +324,13 @@ public class RefreshOrLoadRecyclerView extends LinearLayout {
                 break;
             //刷新中
             case HEAD_REFRESHING:
-                headToRefreshText.setText("正在刷新");
+                toRefreshTime = System.currentTimeMillis();
+                long time = toRefreshTime - refreshedTime;
+                if (refreshedTime > 0){
+                    headToRefreshText.setText(long2Time(time) == null ? "正在刷新" : "上次刷新时间:\r\n"+long2Time(time));
+                }else{
+                    headToRefreshText.setText("正在刷新");
+                }
                 headToRefreshImage.setVisibility(GONE);
                 headLoadRefreshImage.setVisibility(VISIBLE);
                 //清除箭头动画
@@ -339,6 +342,26 @@ public class RefreshOrLoadRecyclerView extends LinearLayout {
                 }
                 break;
         }
+    }
+
+    /**
+     * 计算时差
+     * @param time
+     * @return
+     */
+    private String long2Time(long time) {
+        String str= "";
+        long second = time / 1000;
+        long minute = second / 60;
+        long hour = minute / 60;
+        if (hour > 0){
+            return hour+"小时前";
+        }else if (minute < 60 && second >=60){
+            return minute+"分钟前";
+        } else if (second > 0) {
+            return second+"秒前";
+        }
+        return null;
     }
 
     /**
@@ -383,7 +406,6 @@ public class RefreshOrLoadRecyclerView extends LinearLayout {
     public void onRefreshFinish(){
         if (isLoadMore){
             //上拉加载
-            footProgress.setVisibility(GONE);
             footToLoadImage.setVisibility(GONE);
             footLoadRefreshImage.setVisibility(GONE);
             footToRefreshText.setVisibility(GONE);
@@ -399,7 +421,7 @@ public class RefreshOrLoadRecyclerView extends LinearLayout {
             }
         }else{
             //下拉刷新
-            headProgress.setVisibility(GONE);
+            refreshedTime = System.currentTimeMillis();
             headLoadRefreshImage.setVisibility(GONE);
             headToRefreshImage.setVisibility(GONE);
             headToRefreshText.setVisibility(GONE);
