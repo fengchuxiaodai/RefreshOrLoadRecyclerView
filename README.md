@@ -7,3 +7,11 @@
 如果发现问题，请及时@我，谢谢
 
 ----------
+
+ - 刷新
+
+
+![Image text](https://github.com/JYcainiao/RefreshOrLoadRecyclerView/blob/master/imageview/111111.png)
+
+
+ -加载
