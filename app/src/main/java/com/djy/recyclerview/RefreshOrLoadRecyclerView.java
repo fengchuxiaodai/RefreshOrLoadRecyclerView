@@ -432,7 +432,6 @@ public class RefreshOrLoadRecyclerView extends LinearLayout {
             Log.i("tag","onRefreshFinish");
             recyclerView.smoothScrollToPosition(0);
         }
-        recyclerView.getAdapter().notifyDataSetChanged();
         isLast = false;
         isFirst = false;
     }

@@ -82,6 +82,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter {
      */
     public void add(int pos, T item) {
         dataList.add(pos, item);
+        notifyDataSetChanged();
     }
 
     /**
@@ -91,6 +92,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter {
      */
     public void addList(int pos,List<T> list){
         dataList.addAll(pos,list);
+        notifyDataSetChanged();
     }
 
     public  List<T> getListData(){
@@ -103,6 +105,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter {
      */
     public void delete(int pos) {
         dataList.remove(pos);
+        notifyDataSetChanged();
     }
 
     /**
@@ -110,6 +113,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter {
      */
     public void deleteAll(){
         dataList.clear();
+        notifyDataSetChanged();
     }
 
     /**
@@ -170,6 +174,12 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter {
             mViews = new SparseArray<View>();
         }
 
+        /**
+         * 查找控件  如果集合里面没有  在布局文件找到后 添加进集合
+         * @param viewId
+         * @param <T>
+         * @return
+         */
         private <T extends View> T findViewById(int viewId) {
             View view = mViews.get(viewId);
             if (view == null) {
@@ -203,12 +213,24 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter {
             return (EditText) getView(viewId);
         }
 
+        /**
+         * 设置背景
+         * @param viewId
+         * @param resId
+         * @return
+         */
         public RecyclerViewHolder setBackground(int viewId, int resId) {
             View view = findViewById(viewId);
             view.setBackgroundResource(resId);
             return this;
         }
 
+        /**
+         * 条目的子空间的点击监听
+         * @param viewId
+         * @param listener
+         * @return
+         */
         public RecyclerViewHolder setClickListener(int viewId, View.OnClickListener listener) {
             View view = findViewById(viewId);
             view.setOnClickListener(listener);
