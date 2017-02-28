@@ -11,7 +11,6 @@ import android.view.WindowManager;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -498,4 +497,5 @@ public class RefreshOrLoadRecyclerView extends LinearLayout {
         void refresh();
         void loadMore();
     }
+
 }
