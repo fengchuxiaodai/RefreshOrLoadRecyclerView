@@ -3,7 +3,6 @@ package com.djy.recyclerview;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -181,12 +180,14 @@ public class RefreshOrLoadRecyclerView extends LinearLayout {
                             //下拉刷新
                             isLoadMore = false;
                             headView.setVisibility(VISIBLE);
+                            //箭头图片应该旋转的角度
+                            float point = move >= footerHeigh ? 180f : ((float)move) / headerHeigh * 180;
+                            headToRefreshImage.setRotation(point);
                             int padding = move - headerHeigh;
                             if (padding > 0) {
                                 padding = padding / 3;
                             }
                             layout.setPadding(0, padding, 0, 0);
-                            Log.i("tag", "moving");
                             recyclerView.smoothScrollToPosition(0);
                             if (padding < 0) {
                                 if (mCurrHeadViewUpRefreshState != HEAD_TO_REFRESH) {
@@ -204,6 +205,9 @@ public class RefreshOrLoadRecyclerView extends LinearLayout {
                                 isLast = true;
                                 //上拉加载
                                 isLoadMore = true;
+                                //箭头图片应该旋转的角度
+                                float point = move >= footerHeigh ? 180f : ((float)move) / footerHeigh * 180;
+                                footToLoadImage.setRotation(point);
                                 footView.setVisibility(VISIBLE);
                                 int padding = move - footerHeigh;
                                 if (padding > 0) {
@@ -315,11 +319,11 @@ public class RefreshOrLoadRecyclerView extends LinearLayout {
                 headToRefreshText.setVisibility(VISIBLE);
                 headToRefreshText.setText("下拉刷新");
                 headToRefreshImage.setVisibility(VISIBLE);
-                headToRefreshImage.clearAnimation();
+//                headToRefreshImage.clearAnimation();
                 break;
             case HEAD_RELESE_REFRESH:
                 headToRefreshText.setText("松开刷新");
-                headToRefreshImage.startAnimation(arrowRotate);
+//                headToRefreshImage.startAnimation(arrowRotate);
                 break;
             //刷新中
             case HEAD_REFRESHING:
@@ -333,7 +337,7 @@ public class RefreshOrLoadRecyclerView extends LinearLayout {
                 headToRefreshImage.setVisibility(GONE);
                 headLoadRefreshImage.setVisibility(VISIBLE);
                 //清除箭头动画
-                headToRefreshImage.clearAnimation();
+//                headToRefreshImage.clearAnimation();
                 //开始加载动画
                 headLoadRefreshImage.startAnimation(progressBarRotate);
                 if (onRefreshListener!=null){
@@ -375,12 +379,12 @@ public class RefreshOrLoadRecyclerView extends LinearLayout {
                 footToRefreshText.setVisibility(VISIBLE);
                 footToRefreshText.setText("上拉加载更多");
                 footToLoadImage.setVisibility(VISIBLE);
-                footToLoadImage.clearAnimation();
+//                footToLoadImage.clearAnimation();
                 break;
             //上拉距离过大
             case FOOT_RELESE_LOAD:
                 footToRefreshText.setText("松开加载");
-                footToLoadImage.startAnimation(arrowRotate);
+//                footToLoadImage.startAnimation(arrowRotate);
                 break;
             //加载中
             case FOOT_LOADING:
@@ -388,7 +392,7 @@ public class RefreshOrLoadRecyclerView extends LinearLayout {
                 footToLoadImage.setVisibility(GONE);
                 footLoadRefreshImage.setVisibility(VISIBLE);
                 //关闭箭头动画
-                footToLoadImage.clearAnimation();
+//                footToLoadImage.clearAnimation();
                 //开启加载动画
                 footLoadRefreshImage.startAnimation(progressBarRotate);
                 if (onRefreshListener!=null){
@@ -429,7 +433,6 @@ public class RefreshOrLoadRecyclerView extends LinearLayout {
             headLoadRefreshImage.clearAnimation();
             headToRefreshText.setText("下拉刷新");
             layout.setPadding(0, 0, 0, 0);//设置布局padding
-            Log.i("tag","onRefreshFinish");
             recyclerView.smoothScrollToPosition(0);
         }
         isLast = false;
@@ -454,17 +457,6 @@ public class RefreshOrLoadRecyclerView extends LinearLayout {
                 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
         arrowRotate.setDuration(500);
         arrowRotate.setFillAfter(true);
-    }
-
-    /**
-     * 创建箭头旋转动画
-     * @param i
-     */
-    private void createArrowAnima(int i){
-        arrowRotate  = new RotateAnimation(0, i, RotateAnimation.RELATIVE_TO_SELF,
-                0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
-        arrowRotate.setFillAfter(!arrowRotate.getFillAfter());
-        arrowRotate.setDuration(1);
     }
 
     /**
